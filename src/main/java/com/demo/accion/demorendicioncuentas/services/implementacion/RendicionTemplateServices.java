@@ -94,7 +94,7 @@ public class RendicionTemplateServices implements RendicionTemplateInterfaces {
 
     @Override
     public byte[]  geenerarPDFrendicion() {
-        AdmResultadosRendicionEntity AdmResultadosRendicionEntity = admResultadosRendicionRepo.findById(2L).orElse(null);
+        AdmResultadosRendicionEntity admResultadosRendicionEntity = admResultadosRendicionRepo.findById(2L).orElse(null);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 //        ITextRenderer renderer = new ITextRenderer();
 //        renderer.setDocumentFromString(AdmResultadosRendicionEntity.getPlantillaResultado());
@@ -107,9 +107,12 @@ public class RendicionTemplateServices implements RendicionTemplateInterfaces {
         try (OutputStream os = new FileOutputStream("D:/demo2.pdf")) {
             PdfRendererBuilder builder = new PdfRendererBuilder();
             builder.useFastMode();
-            builder.withHtmlContent(AdmResultadosRendicionEntity.getPlantillaResultado(), "/home");
+            builder.withHtmlContent(admResultadosRendicionEntity.getPlantillaResultado(), "/home");
             builder.toStream(os);
             builder.run();
+            InputStream oss = new FileInputStream("D:/demo2.pdf");
+            byte[] inputStream = IOUtils.toByteArray(oss);
+            return inputStream;
         } catch (IOException e) {
             e.printStackTrace();
         }
